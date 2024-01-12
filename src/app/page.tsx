@@ -2,9 +2,9 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 
 export default function Home() {
   return (
-    <main className="flex h-full">
-      <div className="flex h-full w-96 flex-col overflow-auto">
-        <div>
+    <main className="flex h-full items-stretch">
+      <div className="flex w-96 flex-col overflow-auto">
+        <ScrollArea>
           <h1>Setting up the layer</h1>
           <p>
             Lorem, ipsum dolor sit amet consectetur adipisicing elit. Blanditiis
@@ -18,7 +18,7 @@ export default function Home() {
             fuga temporibus rerum molestias vitae beatae hic nostrum maiores non
             nobis nulla!
           </p>
-        </div>
+        </ScrollArea>
       </div>
       <div className="grow">Preview of the map</div>
     </main>
