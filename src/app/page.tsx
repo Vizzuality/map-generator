@@ -20,7 +20,9 @@ export default function Home() {
           </p>
         </ScrollArea>
       </div>
-      <div className="grow">Preview of the map</div>
+      <div className="grow bg-white" id="preview">
+        Preview of the map
+      </div>
     </main>
   );
 }
