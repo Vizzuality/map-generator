@@ -1,7 +1,8 @@
-import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import './globals.css';
 import Header from '@/components/header';
+import Providers from '@/components/providers';
+import './globals.css';
+import type { Metadata } from 'next';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -12,13 +13,15 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className={`${inter.className} bg-white`}>
-        <div className="flex h-screen w-full flex-col">
-          <Header />
-          <div className="flex-1 overflow-hidden">{children}</div>
-        </div>
-      </body>
-    </html>
+    <Providers>
+      <html lang="en">
+        <body className={`${inter.className} bg-white`}>
+          <div className="flex h-screen w-full flex-col">
+            <Header />
+            <div className="flex-1 overflow-hidden">{children}</div>
+          </div>
+        </body>
+      </html>
+    </Providers>
   );
 }

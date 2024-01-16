@@ -1,19 +1,18 @@
 'use client';
 
 import { useCallback } from 'react';
-import { toPng } from 'html-to-image';
-import { Button } from '@/components/ui/button';
+import { useMap } from 'react-map-gl';
+import { Button } from '../components/ui/button';
 
 const Export = () => {
+  const { previewMap: map } = useMap();
   const handleClick = useCallback(() => {
-    const node = document.getElementById('preview');
-    if (node) {
-      toPng(node).then((dataUrl) => {
-        const link = document.createElement('a');
-        link.download = `map-export-${Date.now()}.png`;
-        link.href = dataUrl;
-        link.click();
-      });
+    const imageFromCanvas = map?.getCanvas().toDataURL('image/png');
+    if (imageFromCanvas) {
+      const link = document.createElement('a');
+      link.download = `map-export-${Date.now()}.png`;
+      link.href = imageFromCanvas;
+      link.click();
     }
   }, []);
 

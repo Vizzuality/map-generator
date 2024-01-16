@@ -1,13 +1,6 @@
-// https://leaflet-extras.github.io/leaflet-providers/preview/
+import type { BasemapProvider } from './types';
 
-type BasemapProvider = {
-  name: string;
-  url: string;
-  attribution: string;
-  maxZoom?: number;
-};
-
-const basemapProviders: BasemapProvider[] = [
+export const basemapProviders: BasemapProvider[] = [
   {
     name: 'OpenStreetMap',
     url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',

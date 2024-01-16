@@ -1,6 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useStore } from '@nanostores/react';
+import { useCallback } from 'react';
+import {
+  $basemapControl,
+  setBasemap,
+  setBasemapProviderName,
+  setMapboxStyle,
+} from '@/stores/basemap';
 import { Input } from '@/components/ui/input';
 import {
   Select,
@@ -9,11 +16,22 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import basemapProviders from '@/constants/basemap-providers';
+import { basemapProviders } from './constants';
 
 const BasemapControl = () => {
-  const [basemap, setBasemap] = useState<string>('default');
-  const [basemapProvider, setBasemapProvider] = useState<string>('OpenStreetMap');
+  const { basemap, mapboxStyle, basemapProviderName } = useStore($basemapControl);
+  const handleStyleURLChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setMapboxStyle({ ...mapboxStyle, styleURL: event.target.value });
+    },
+    [mapboxStyle]
+  );
+  const handleTokenChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setMapboxStyle({ ...mapboxStyle, token: event.target.value });
+    },
+    [mapboxStyle]
+  );
 
   return (
     <section className="space-y-2">
@@ -30,13 +48,23 @@ const BasemapControl = () => {
       </Select>
       {basemap === 'mapbox' && (
         <div className="space-y-2">
-          <Input type="text" placeholder="Mapbox Style URL" />
-          <Input type="text" placeholder="Mapbox Token" />
+          <Input
+            type="text"
+            placeholder="Mapbox Style URL"
+            value={mapboxStyle?.styleURL || ''}
+            onChange={handleStyleURLChange}
+          />
+          <Input
+            type="text"
+            placeholder="Mapbox Token"
+            value={mapboxStyle?.token || ''}
+            onChange={handleTokenChange}
+          />
         </div>
       )}
-      {basemap === 'free' && (
+      {basemap === 'free' && basemapProviderName && (
         <div className="space-y-2">
-          <Select defaultValue={basemapProvider} onValueChange={setBasemapProvider}>
+          <Select defaultValue={basemapProviderName} onValueChange={setBasemapProviderName}>
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Choice a basemap provider" />
             </SelectTrigger>

@@ -1,5 +1,6 @@
-import { ScrollArea } from '@/components/ui/scroll-area';
 import BasemapControl from '@/components/controls/basemap';
+import Map from '@/components/map';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 const Home = () => {
   return (
@@ -10,7 +11,7 @@ const Home = () => {
         </ScrollArea>
       </div>
       <div className="grow bg-gray-50" id="preview">
-        Preview of the map
+        <Map />
       </div>
     </main>
   );
