@@ -3,9 +3,13 @@
 import { useStore } from '@nanostores/react';
 import MapGL, { Layer, Source } from 'react-map-gl';
 import { $basemapControl, $basemapProvider } from '@/stores/basemap';
+import { $contextualLayers } from '@/stores/contextual-layers';
+import GainLayer from './layers/gain';
+import ProtectedAreasLayer from './layers/protected-areas';
 
 const Map = () => {
   const { basemap, mapboxStyle } = useStore($basemapControl);
+  const contextualLayers = useStore($contextualLayers);
   const basemapProvider = useStore($basemapProvider);
   const isExternalMapbox = !!(basemap === 'mapbox' && mapboxStyle?.token && mapboxStyle?.styleURL);
 
@@ -31,6 +35,8 @@ const Map = () => {
           <Layer id="thirdPartyBasemapLayer" type="raster" />
         </Source>
       )}
+      <GainLayer />
+      {contextualLayers['protected-areas'] && <ProtectedAreasLayer />}
     </MapGL>
   );
 };
