@@ -34,7 +34,7 @@ const BasemapControl = () => {
   );
 
   return (
-    <section className="space-y-2">
+    <section className="space-y-2 py-4">
       <h2>Basemap</h2>
       <Select defaultValue={basemap} onValueChange={setBasemap}>
         <SelectTrigger className="w-full">
