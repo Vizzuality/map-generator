@@ -1,10 +1,11 @@
 'use client';
 
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useMap } from 'react-map-gl';
 import { Button } from '../components/ui/button';
 
 const Export = () => {
+  const [isMapLoaded, setIsMapLoaded] = useState(false);
   const { previewMap: map } = useMap();
   const handleClick = useCallback(() => {
     const imageFromCanvas = map?.getCanvas().toDataURL('image/png');
@@ -14,10 +15,16 @@ const Export = () => {
       link.href = imageFromCanvas;
       link.click();
     }
-  }, []);
+  }, [map]);
+
+  useEffect(() => {
+    if (!isMapLoaded && map) {
+      setIsMapLoaded(true);
+    }
+  }, [map, isMapLoaded]);
 
   return (
-    <Button type="button" onClick={handleClick} size="sm">
+    <Button type="button" onClick={handleClick} size="sm" disabled={!isMapLoaded}>
       Export to PNG
     </Button>
   );
