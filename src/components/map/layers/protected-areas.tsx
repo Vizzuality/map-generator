@@ -1,6 +1,8 @@
+import { useStore } from '@nanostores/react';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { Layer, type LayerProps, Source } from 'react-map-gl';
+import { $protectedAreasConfig } from '@/stores/contextual-layers';
 
 const CARTO_ACCOUNT = 'wri-01';
 
@@ -32,28 +34,8 @@ const fetchProtectedAreas = () =>
     })
     .then((res) => res.data);
 
-const LAYERS: LayerProps[] = [
-  {
-    id: 'fill_protected_areas',
-    type: 'fill',
-    'source-layer': 'layer0',
-    paint: {
-      'fill-color': '#00BBFF',
-      'fill-opacity': 0.75,
-    },
-  },
-  {
-    id: 'line_protected_areas',
-    type: 'line',
-    'source-layer': 'layer0',
-    paint: {
-      'line-color': '#000000',
-      'line-opacity': 0.1,
-    },
-  },
-];
-
 const ProtectedAreasLayer = () => {
+  const protectedAreasConfig = useStore($protectedAreasConfig);
   const { data } = useQuery({
     queryKey: ['protected-areas'],
     queryFn: fetchProtectedAreas,
@@ -67,9 +49,30 @@ const ProtectedAreasLayer = () => {
       'a'
     );
 
+  const layers: LayerProps[] = [
+    {
+      id: 'fill_protected_areas',
+      type: 'fill',
+      'source-layer': 'layer0',
+      paint: {
+        'fill-color': protectedAreasConfig.fillColor,
+        'fill-opacity': 0.75,
+      },
+    },
+    {
+      id: 'line_protected_areas',
+      type: 'line',
+      'source-layer': 'layer0',
+      paint: {
+        'line-color': protectedAreasConfig.fillColor,
+        'line-opacity': 0.75,
+      },
+    },
+  ];
+
   return (
     <Source id="protected-areas" type="vector" tiles={[tileURL]}>
-      {LAYERS.map((layer) => (
+      {layers.map((layer) => (
         <Layer {...layer} key={layer.id} />
       ))}
     </Source>

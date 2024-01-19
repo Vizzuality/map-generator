@@ -23,6 +23,6 @@ export const setContextualLayer = (key: ContextualLayerKeys, value: boolean) => 
   $contextualLayers.set({ ...$contextualLayers.get(), [key]: value });
 };
 
-export const setProtectedAreasConfig = (config: ProtectedAreasConfig) => {
-  $protectedAreasConfig.set(config);
+export const setProtectedAreasConfig = (config: Partial<ProtectedAreasConfig>) => {
+  $protectedAreasConfig.set({ ...$protectedAreasConfig.get(), ...config });
 };

@@ -35,7 +35,7 @@ const Map = () => {
           <Layer id="thirdPartyBasemapLayer" type="raster" />
         </Source>
       )}
-      <GainLayer />
+      {contextualLayers.gain && <GainLayer />}
       {contextualLayers['protected-areas'] && <ProtectedAreasLayer />}
     </MapGL>
   );
