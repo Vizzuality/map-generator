@@ -1,4 +1,4 @@
-import { atom, computed } from 'nanostores';
+import { atom } from 'jotai';
 
 enum ContextualLayerKeys {
   ProtectedAreas = 'protected-areas',
@@ -18,11 +18,3 @@ export const $protectedAreasConfig = atom<ProtectedAreasConfig>({
   lineColor: '#000',
   fillColor: '#00BBFF',
 });
-
-export const setContextualLayer = (key: ContextualLayerKeys, value: boolean) => {
-  $contextualLayers.set({ ...$contextualLayers.get(), [key]: value });
-};
-
-export const setProtectedAreasConfig = (config: Partial<ProtectedAreasConfig>) => {
-  $protectedAreasConfig.set({ ...$protectedAreasConfig.get(), ...config });
-};

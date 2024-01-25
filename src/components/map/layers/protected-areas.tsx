@@ -1,6 +1,6 @@
-import { useStore } from '@nanostores/react';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
+import { useAtom } from 'jotai';
 import { Layer, type LayerProps, Source } from 'react-map-gl';
 import { $protectedAreasConfig } from '@/stores/contextual-layers';
 
@@ -35,7 +35,7 @@ const fetchProtectedAreas = () =>
     .then((res) => res.data);
 
 const ProtectedAreasLayer = () => {
-  const protectedAreasConfig = useStore($protectedAreasConfig);
+  const [protectedAreasConfig] = useAtom($protectedAreasConfig);
   const { data } = useQuery({
     queryKey: ['protected-areas'],
     queryFn: fetchProtectedAreas,

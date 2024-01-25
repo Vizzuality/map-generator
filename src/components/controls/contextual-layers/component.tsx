@@ -1,19 +1,14 @@
 'use client';
 
-import { useStore } from '@nanostores/react';
-import {
-  $contextualLayers,
-  $protectedAreasConfig,
-  setContextualLayer,
-  setProtectedAreasConfig,
-} from '@/stores/contextual-layers';
+import { useAtom } from 'jotai';
+import { $contextualLayers, $protectedAreasConfig } from '@/stores/contextual-layers';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { ContextualLayerKeys } from './constants';
 
 const ContextualLayersControl = () => {
-  const contextualLayers = useStore($contextualLayers);
-  const protectedAreasConfig = useStore($protectedAreasConfig);
+  const [contextualLayers, setContextualLayer] = useAtom($contextualLayers);
+  const [protectedAreasConfig, setProtectedAreasConfig] = useAtom($protectedAreasConfig);
 
   return (
     <div className="space-y-2 py-4">
@@ -25,7 +20,10 @@ const ContextualLayersControl = () => {
               <Checkbox
                 id={ContextualLayerKeys.ProtectedAreas}
                 onCheckedChange={(checked: boolean) =>
-                  setContextualLayer(ContextualLayerKeys.ProtectedAreas, checked)
+                  setContextualLayer({
+                    ...contextualLayers,
+                    [ContextualLayerKeys.ProtectedAreas]: checked,
+                  })
                 }
                 checked={contextualLayers['protected-areas']}
               />
@@ -38,7 +36,12 @@ const ContextualLayersControl = () => {
                   <Input
                     type="color"
                     value={protectedAreasConfig.fillColor}
-                    onChange={(e) => setProtectedAreasConfig({ fillColor: e.target.value })}
+                    onChange={(e) =>
+                      setProtectedAreasConfig({
+                        ...protectedAreasConfig,
+                        fillColor: e.target.value as string,
+                      })
+                    }
                   />
                 </div>
                 <div className="flex items-center space-x-2">
@@ -46,7 +49,12 @@ const ContextualLayersControl = () => {
                   <Input
                     type="color"
                     value={protectedAreasConfig.lineColor}
-                    onChange={(e) => setProtectedAreasConfig({ lineColor: e.target.value })}
+                    onChange={(e) =>
+                      setProtectedAreasConfig({
+                        ...protectedAreasConfig,
+                        lineColor: e.target.value as string,
+                      })
+                    }
                   />
                 </div>
               </div>
@@ -55,7 +63,10 @@ const ContextualLayersControl = () => {
               <Checkbox
                 id={ContextualLayerKeys.Gain}
                 onCheckedChange={(checked: boolean) =>
-                  setContextualLayer(ContextualLayerKeys.Gain, checked)
+                  setContextualLayer({
+                    ...contextualLayers,
+                    [ContextualLayerKeys.Gain]: checked,
+                  })
                 }
                 checked={contextualLayers.gain}
               />

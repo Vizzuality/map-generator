@@ -1,13 +1,9 @@
 'use client';
 
-import { useStore } from '@nanostores/react';
+import { useAtom } from 'jotai';
 import { useCallback } from 'react';
-import {
-  $basemapControl,
-  setBasemap,
-  setBasemapProviderName,
-  setMapboxStyle,
-} from '@/stores/basemap';
+import { $basemap, $basemapProviderName, $mapboxStyle } from '@/stores/basemap';
+import type { BasemapControl, BasemapProvider } from '@/components/controls/basemap/types';
 import { Input } from '@/components/ui/input';
 import {
   Select,
@@ -19,24 +15,29 @@ import {
 import { basemapProviders } from './constants';
 
 const BasemapControl = () => {
-  const { basemap, mapboxStyle, basemapProviderName } = useStore($basemapControl);
+  const [basemap, setBasemap] = useAtom($basemap);
+  const [mapboxStyle, setMapboxStyle] = useAtom($mapboxStyle);
+  const [basemapProviderName, setBasemapProviderName] = useAtom($basemapProviderName);
   const handleStyleURLChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setMapboxStyle({ ...mapboxStyle, styleURL: event.target.value });
     },
-    [mapboxStyle]
+    [mapboxStyle, setMapboxStyle]
   );
   const handleTokenChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setMapboxStyle({ ...mapboxStyle, token: event.target.value });
     },
-    [mapboxStyle]
+    [mapboxStyle, setMapboxStyle]
   );
 
   return (
     <section className="space-y-2 py-4">
       <h2>Basemap</h2>
-      <Select defaultValue={basemap} onValueChange={setBasemap}>
+      <Select
+        defaultValue={basemap}
+        onValueChange={(value) => setBasemap(value as BasemapControl['basemap'])}
+      >
         <SelectTrigger className="w-full">
           <SelectValue placeholder="Basemap" />
         </SelectTrigger>

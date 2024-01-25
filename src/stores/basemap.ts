@@ -1,6 +1,6 @@
-import { atom, computed } from 'nanostores';
+import { type Getter, atom } from 'jotai';
 import { basemapProviders } from '@/components/controls/basemap/constants';
-import type { BasemapControl } from '@/components/controls/basemap/types';
+import type { BasemapControl, BasemapProvider } from '@/components/controls/basemap/types';
 
 export const $basemap = atom<BasemapControl['basemap']>('default');
 
@@ -8,31 +8,20 @@ export const $mapboxStyle = atom<BasemapControl['mapboxStyle']>({ styleURL: null
 
 export const $basemapProviderName = atom<BasemapControl['basemapProviderName']>('OpenStreetMap');
 
-export const $basemapControl = computed(
-  [$basemap, $mapboxStyle, $basemapProviderName],
-  (basemap, mapboxStyle, basemapProviderName) => ({
-    basemap,
-    mapboxStyle,
-    basemapProviderName,
+export const $basemapControl = atom(
+  (get: Getter): BasemapControl => ({
+    basemap: get($basemap),
+    mapboxStyle: get($mapboxStyle),
+    basemapProviderName: get($basemapProviderName),
   })
 );
 
-export const $basemapProvider = computed([$basemap, $basemapControl], (basemap, basemapControl) =>
-  basemap === 'free'
-    ? basemapProviders.find(
+export const $basemapProvider = atom((get: Getter): BasemapProvider | null => {
+  const basemap = get($basemap);
+  const basemapControl = get($basemapControl);
+  return basemap === 'free'
+    ? (basemapProviders.find(
         (basemapProvider) => basemapProvider.name === basemapControl.basemapProviderName
-      )
-    : null
-);
-
-export function setBasemap(basemap: BasemapControl['basemap']) {
-  $basemap.set(basemap);
-}
-
-export function setMapboxStyle(mapboxStyle: BasemapControl['mapboxStyle']) {
-  $mapboxStyle.set(mapboxStyle);
-}
-
-export function setBasemapProviderName(providerName: BasemapControl['basemapProviderName']) {
-  $basemapProviderName.set(providerName);
-}
+      ) as BasemapProvider)
+    : null;
+});

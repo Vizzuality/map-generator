@@ -1,3 +1,5 @@
+import 'mapbox-gl/dist/mapbox-gl.css';
+
 import { Inter } from 'next/font/google';
 import Header from '@/components/header';
 import Providers from '@/components/providers';

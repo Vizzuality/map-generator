@@ -1,6 +1,6 @@
 'use client';
 
-import { useStore } from '@nanostores/react';
+import { useAtom } from 'jotai';
 import MapGL, { Layer, Source } from 'react-map-gl';
 import { $basemapControl, $basemapProvider } from '@/stores/basemap';
 import { $contextualLayers } from '@/stores/contextual-layers';
@@ -8,9 +8,9 @@ import GainLayer from './layers/gain';
 import ProtectedAreasLayer from './layers/protected-areas';
 
 const Map = () => {
-  const { basemap, mapboxStyle } = useStore($basemapControl);
-  const contextualLayers = useStore($contextualLayers);
-  const basemapProvider = useStore($basemapProvider);
+  const [{ basemap, mapboxStyle }] = useAtom($basemapControl);
+  const [contextualLayers] = useAtom($contextualLayers);
+  const [basemapProvider] = useAtom($basemapProvider);
   const isExternalMapbox = !!(basemap === 'mapbox' && mapboxStyle?.token && mapboxStyle?.styleURL);
 
   return (
