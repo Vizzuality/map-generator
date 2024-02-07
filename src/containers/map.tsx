@@ -1,30 +1,35 @@
 'use client';
 
 import { useAtom } from 'jotai';
-import MapGL, { Layer, Source } from 'react-map-gl';
+import { Layer, Source } from 'react-map-gl';
 import { $basemapControl, $basemapProvider } from '@/stores/basemap';
-import { $contextualLayers } from '@/stores/contextual-layers';
-import GainLayer from './layers/gain';
-import ProtectedAreasLayer from './layers/protected-areas';
+import { Map } from '@/components/map';
+import { Controls } from '@/components/map/controls';
+import { ZoomControl } from '@/components/map/controls/zoom';
 
-const Map = () => {
+import env from '@/env.mjs';
+
+const MapContainer = () => {
   const [{ basemap, mapboxStyle }] = useAtom($basemapControl);
-  const [contextualLayers] = useAtom($contextualLayers);
   const [basemapProvider] = useAtom($basemapProvider);
   const isExternalMapbox = !!(basemap === 'mapbox' && mapboxStyle?.token && mapboxStyle?.styleURL);
 
   return (
-    <MapGL
-      id="previewMap"
-      mapboxAccessToken={
-        isExternalMapbox ? (mapboxStyle.token as string) : process.env.NEXT_PUBLIC_MAPBOX_TOKEN
-      }
+    <Map
+      id="default"
       initialViewState={{ longitude: 0, latitude: 0, zoom: 0 }}
+      mapboxAccessToken={
+        isExternalMapbox ? (mapboxStyle.token as string) : env.NEXT_PUBLIC_MAPBOX_TOKEN
+      }
       mapStyle={
         isExternalMapbox ? (mapboxStyle.styleURL as string) : 'mapbox://styles/mapbox/streets-v11'
       }
       preserveDrawingBuffer
     >
+      <Controls className="absolute right-6 top-4">
+        <ZoomControl />
+      </Controls>
+
       {basemap === 'free' && basemapProvider && (
         <Source
           id="thirdPartyBasemapSource"
@@ -35,10 +40,8 @@ const Map = () => {
           <Layer id="thirdPartyBasemapLayer" type="raster" />
         </Source>
       )}
-      {contextualLayers.gain && <GainLayer />}
-      {contextualLayers['protected-areas'] && <ProtectedAreasLayer />}
-    </MapGL>
+    </Map>
   );
 };
 
-export default Map;
+export default MapContainer;

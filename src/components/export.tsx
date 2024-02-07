@@ -6,7 +6,7 @@ import { Button } from '../components/ui/button';
 
 const Export = () => {
   const [isMapLoaded, setIsMapLoaded] = useState(false);
-  const { previewMap: map } = useMap();
+  const { default: map } = useMap();
   const handleClick = useCallback(() => {
     const imageFromCanvas = map?.getCanvas().toDataURL('image/png');
     if (imageFromCanvas) {
