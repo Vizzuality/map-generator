@@ -2,8 +2,12 @@
 
 import { useAtom } from 'jotai';
 import { useCallback } from 'react';
-import { $basemap, $basemapProviderName, $mapboxStyle } from '@/stores/basemap';
-import type { BasemapControl, BasemapProvider } from '@/components/controls/basemap/types';
+import { $basemap, $basemapMapbox, $basemapCustom, $basemapFree } from '@/stores/basemap';
+import type {
+  BasemapControl,
+  BasemapFree,
+  BasemapMapbox,
+} from '@/components/controls/basemap/types';
 import { Input } from '@/components/ui/input';
 import {
   Select,
@@ -12,23 +16,26 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { basemapProviders } from './constants';
+import { FREE_BASEMAPS, MAPBOX_BASEMAPS } from '@/constants/map';
 
 const BasemapControl = () => {
   const [basemap, setBasemap] = useAtom($basemap);
-  const [mapboxStyle, setMapboxStyle] = useAtom($mapboxStyle);
-  const [basemapProviderName, setBasemapProviderName] = useAtom($basemapProviderName);
+  const [basemapMapbox, setBasemapMapbox] = useAtom($basemapMapbox);
+  const [basemapCustom, setBasemapCustom] = useAtom($basemapCustom);
+  const [basemapFree, setBasemapFree] = useAtom($basemapFree);
+
   const handleStyleURLChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      setMapboxStyle({ ...mapboxStyle, styleURL: event.target.value });
+      setBasemapCustom({ ...basemapCustom, styleURL: event.target.value });
     },
-    [mapboxStyle, setMapboxStyle]
+    [basemapCustom, setBasemapCustom]
   );
+
   const handleTokenChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      setMapboxStyle({ ...mapboxStyle, token: event.target.value });
+      setBasemapCustom({ ...basemapCustom, token: event.target.value });
     },
-    [mapboxStyle, setMapboxStyle]
+    [basemapCustom, setBasemapCustom]
   );
 
   return (
@@ -42,37 +49,59 @@ const BasemapControl = () => {
           <SelectValue placeholder="Basemap" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="default">Default (Mapbox)</SelectItem>
-          <SelectItem value="mapbox">External Mapbox</SelectItem>
+          <SelectItem value="mapbox">Mapbox</SelectItem>
+          <SelectItem value="custom">Custom Mapbox</SelectItem>
           <SelectItem value="free">Free sources</SelectItem>
         </SelectContent>
       </Select>
-      {basemap === 'mapbox' && (
+
+      {basemap === 'mapbox' && basemapMapbox && (
+        <div className="space-y-2">
+          <Select
+            defaultValue={basemapMapbox}
+            onValueChange={(v: BasemapMapbox) => setBasemapMapbox(v)}
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Choice a basemap theme" />
+            </SelectTrigger>
+            <SelectContent>
+              {MAPBOX_BASEMAPS.map((b) => (
+                <SelectItem key={b.name} value={b.name}>
+                  {b.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      )}
+
+      {basemap === 'custom' && (
         <div className="space-y-2">
           <Input
             type="text"
             placeholder="Mapbox Style URL"
-            value={mapboxStyle?.styleURL || ''}
+            value={basemapCustom?.styleURL || ''}
             onChange={handleStyleURLChange}
           />
           <Input
             type="text"
             placeholder="Mapbox Token"
-            value={mapboxStyle?.token || ''}
+            value={basemapCustom?.token || ''}
             onChange={handleTokenChange}
           />
         </div>
       )}
-      {basemap === 'free' && basemapProviderName && (
+
+      {basemap === 'free' && basemapFree && (
         <div className="space-y-2">
-          <Select defaultValue={basemapProviderName} onValueChange={setBasemapProviderName}>
+          <Select defaultValue={basemapFree} onValueChange={(v: BasemapFree) => setBasemapFree(v)}>
             <SelectTrigger className="w-full">
-              <SelectValue placeholder="Choice a basemap provider" />
+              <SelectValue placeholder="Choice a basemap b" />
             </SelectTrigger>
             <SelectContent>
-              {basemapProviders.map((provider) => (
-                <SelectItem key={provider.name} value={provider.name}>
-                  {provider.name}
+              {FREE_BASEMAPS.map((b) => (
+                <SelectItem key={b.name} value={b.name}>
+                  {b.name}
                 </SelectItem>
               ))}
             </SelectContent>

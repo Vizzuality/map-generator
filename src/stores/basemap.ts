@@ -1,27 +1,31 @@
 import { type Getter, atom } from 'jotai';
-import { basemapProviders } from '@/components/controls/basemap/constants';
-import type { BasemapControl, BasemapProvider } from '@/components/controls/basemap/types';
+import type { BasemapControl, BasemapFreeProvider } from '@/components/controls/basemap/types';
+import { FREE_BASEMAPS } from '@/constants/map';
 
-export const $basemap = atom<BasemapControl['basemap']>('default');
+export const $basemap = atom<BasemapControl['basemap']>('mapbox');
 
-export const $mapboxStyle = atom<BasemapControl['mapboxStyle']>({ styleURL: null, token: null });
+export const $basemapMapbox = atom<BasemapControl['basemapMapbox']>('standard');
 
-export const $basemapProviderName = atom<BasemapControl['basemapProviderName']>('OpenStreetMap');
+export const $basemapCustom = atom<BasemapControl['basemapCustom']>({
+  styleURL: null,
+  token: null,
+});
 
-export const $basemapControl = atom(
-  (get: Getter): BasemapControl => ({
-    basemap: get($basemap),
-    mapboxStyle: get($mapboxStyle),
-    basemapProviderName: get($basemapProviderName),
-  })
-);
+export const $basemapFree = atom<BasemapControl['basemapFree']>('OpenStreetMap');
 
-export const $basemapProvider = atom((get: Getter): BasemapProvider | null => {
+export const $basemapControl = atom((get: Getter): BasemapControl => {
   const basemap = get($basemap);
-  const basemapControl = get($basemapControl);
-  return basemap === 'free'
-    ? (basemapProviders.find(
-        (basemapProvider) => basemapProvider.name === basemapControl.basemapProviderName
-      ) as BasemapProvider)
-    : null;
+  const basemapMapbox = get($basemapMapbox);
+  const basemapCustom = get($basemapCustom);
+  const basemapFree = get($basemapFree);
+
+  return {
+    basemap,
+    basemapMapbox,
+    basemapCustom,
+    basemapFree,
+    basemapFreeProvider: FREE_BASEMAPS.find(
+      (basemapProvider) => basemapProvider.name === basemapFree
+    ) as BasemapFreeProvider,
+  };
 });

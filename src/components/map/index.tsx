@@ -29,7 +29,6 @@ export const Map: FC<CustomMapProps> = ({
   constrainedAxis,
   initialViewState,
   bounds,
-  mapboxAccessToken,
   onMapViewStateChange,
   onLoad,
   ...mapboxProps
@@ -137,8 +136,10 @@ export const Map: FC<CustomMapProps> = ({
     <div className={cn('relative z-0 h-full w-full', className)}>
       <ReactMapGL
         id={id}
+        projection={{
+          name: 'mercator',
+        }}
         initialViewState={initialViewState}
-        mapboxAccessToken={mapboxAccessToken || env.NEXT_PUBLIC_MAPBOX_TOKEN}
         onMove={handleMapMove}
         onLoad={handleMapLoad}
         {...mapboxProps}
