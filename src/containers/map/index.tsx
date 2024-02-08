@@ -7,10 +7,12 @@ import { Map } from '@/components/map';
 import { Controls } from '@/components/map/controls';
 import { ZoomControl } from '@/components/map/controls/zoom';
 
+import { LayerManager } from '@/containers/map/layer-manger';
 import env from '@/env.mjs';
 
 const MapContainer = () => {
   const [{ basemap, basemapMapbox, basemapCustom, basemapFreeProvider }] = useAtom($basemapControl);
+
   const isExternalMapbox = !!(
     basemap === 'custom' &&
     basemapCustom?.token &&
@@ -48,6 +50,8 @@ const MapContainer = () => {
           <Layer id="thirdPartyBasemapLayer" type="raster" />
         </Source>
       )}
+
+      <LayerManager />
     </Map>
   );
 };

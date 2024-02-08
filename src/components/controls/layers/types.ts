@@ -1,9 +1,18 @@
 import { LAYER_TYPES } from '@/constants/layers';
 
-export type Layer = {
+export type LayerProps = {
   id: string | number;
-  type: string;
+  type: LayerType['type'];
   name: string;
+  config: Record<string, unknown>;
+  params_config: ParamsConfig;
 };
 
 export type LayerType = (typeof LAYER_TYPES)[number];
+
+export type ParamsConfigValue = {
+  key: string;
+  default: unknown;
+};
+
+export type ParamsConfig = ParamsConfigValue[];

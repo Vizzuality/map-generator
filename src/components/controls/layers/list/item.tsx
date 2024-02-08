@@ -1,13 +1,13 @@
 'use client';
 
-import { useAtomValue, useSetAtom } from 'jotai';
+import { useSetAtom } from 'jotai';
 import { Trash2 } from 'lucide-react';
 import { useCallback } from 'react';
 import { $layers } from '@/stores/layers';
-import { Layer } from '@/components/controls/layers/types';
+import { LayerProps } from '@/components/controls/layers/types';
 import { Button } from '@/components/ui/button';
 
-const LayersControlListItem = ({ id, type, name }: Layer) => {
+const LayersControlListItem = ({ id, type, name }: LayerProps) => {
   const setLayers = useSetAtom($layers);
 
   const handleRemoveLayer = useCallback(() => {
