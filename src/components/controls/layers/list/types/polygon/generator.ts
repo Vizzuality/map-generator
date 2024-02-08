@@ -6,19 +6,22 @@ export type PolygonConfigProps = {
 };
 
 export const DEFAULT_CONFIG = ({ id, bbox }: PolygonConfigProps) => {
-  console.log(bbox);
-  const randomPolygons = randomPolygon(10, {
+  const randomPolygons = randomPolygon(5, {
     bbox,
+    num_vertices: 5,
+    max_radial_length: 1,
   });
 
   return {
     id,
-    '@@type': 'GeojsonLayer',
+    '@@type': 'GeoJsonLayer',
     data: randomPolygons,
     stroked: true,
     filled: true,
     getPosition: '@@=geometry.coordinates',
-    getFillColor: [255, 140, 0],
+    getFillColor: [249, 115, 22],
     getLineColor: [0, 0, 0],
+    getLineWidth: 1,
+    lineWidthUnits: 'pixels',
   };
 };
