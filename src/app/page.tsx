@@ -1,5 +1,5 @@
 import BasemapControl from '@/components/controls/basemap';
-import LayerGeneratorControl from '@/components/controls/layer-generator';
+import LayerControl from '@/components/controls/layers';
 import Map from '@/containers/map';
 import Sidebar from '@/containers/sidebar';
 
@@ -8,7 +8,7 @@ const Home = () => {
     <main className="flex h-full items-stretch">
       <Sidebar>
         <BasemapControl />
-        <LayerGeneratorControl />
+        <LayerControl />
       </Sidebar>
 
       <div className="grow p-4" id="preview">
