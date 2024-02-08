@@ -12,7 +12,6 @@ import ReactMapGL, { ViewState, ViewStateChangeEvent, MapEvent, useMap } from 'r
 
 import { useDebounce } from 'rooks';
 
-import env from '@/env.mjs';
 import { cn } from '@/lib/utils';
 
 import { DEFAULT_VIEW_STATE } from '@/constants/map';
