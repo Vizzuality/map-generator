@@ -7,11 +7,11 @@ export const DEFAULT_VIEW_STATE: Partial<ViewState> = {
 };
 
 export const MAPBOX_BASEMAPS = [
-  {
-    id: 'standard',
-    name: 'standard',
-    url: 'mapbox://styles/mapbox/standard',
-  },
+  // {
+  //   id: 'standard',
+  //   name: 'standard',
+  //   url: 'mapbox://styles/mapbox/standard',
+  // }, Issues with deckgl
   {
     id: 'streets-v11',
     name: 'streets-v11',

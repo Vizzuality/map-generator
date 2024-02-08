@@ -118,7 +118,7 @@ export const useDeckMapboxOverlay = ({
     setTimeout(() => {
       // https://github.com/visgl/deck.gl/blob/c2ba79b08b0ea807c6779d8fe1aaa307ebc22f91/modules/mapbox/src/resolve-layers.ts#L66
       // @ts-expect-error not typed
-      addLayer(layer.clone({ id: i, beforeId: id }));
+      addLayer(layer.clone({ id: i, beforeId: id, getPolygonOffset: () => [0, -10] }));
     }, 10);
   }, [i, id, layer, addLayer]);
 

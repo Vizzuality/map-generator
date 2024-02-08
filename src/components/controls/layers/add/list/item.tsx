@@ -1,12 +1,18 @@
 import { useAtom, useSetAtom } from 'jotai';
 import { useId } from 'react';
+import { useMap } from 'react-map-gl';
 import { $layers, $layersCount } from '@/stores/layers';
-import { DEFAULT_CONFIG as POINTS_DEFAULT_CONFIG } from '@/components/controls/layers/points/generator';
+import {
+  DEFAULT_CONFIG as POINTS_DEFAULT_CONFIG,
+  PointsConfigProps,
+} from '@/components/controls/layers/list/types/points/generator';
 import { LayerProps, LayerType } from '@/components/controls/layers/types';
-import { Config } from '@/components/map/layers/types';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 
-const DEFAULT_CONFIGS: Record<LayerType['type'], (id: string) => Record<string, unknown>> = {
+const DEFAULT_CONFIGS: Record<
+  LayerType['type'],
+  (p: PointsConfigProps) => Record<string, unknown>
+> = {
   points: POINTS_DEFAULT_CONFIG,
   polygon: POINTS_DEFAULT_CONFIG,
   raster: POINTS_DEFAULT_CONFIG,
@@ -14,6 +20,7 @@ const DEFAULT_CONFIGS: Record<LayerType['type'], (id: string) => Record<string, 
 
 export const LayersAddListItem = ({ id, name, type }: LayerType) => {
   const uuid = useId();
+  const { default: map } = useMap();
   const [layersCount, setLayersCount] = useAtom($layersCount);
   const setLayers = useSetAtom($layers);
 
@@ -26,7 +33,10 @@ export const LayersAddListItem = ({ id, name, type }: LayerType) => {
             id: `${id}-${uuid}`,
             name: `${type}-${layersCount}`,
             type,
-            config: DEFAULT_CONFIGS[type](`${id}-${uuid}`),
+            config: DEFAULT_CONFIGS[type]({
+              id: `${id}-${uuid}`,
+              bbox: map!.getBounds().toArray().flat() as [number, number, number, number],
+            }),
           },
         ] satisfies LayerProps[]
     );

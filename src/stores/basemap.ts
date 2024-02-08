@@ -4,7 +4,7 @@ import { FREE_BASEMAPS } from '@/constants/map';
 
 export const $basemap = atom<BasemapControl['basemap']>('mapbox');
 
-export const $basemapMapbox = atom<BasemapControl['basemapMapbox']>('standard');
+export const $basemapMapbox = atom<BasemapControl['basemapMapbox']>('streets-v11');
 
 export const $basemapCustom = atom<BasemapControl['basemapCustom']>({
   styleURL: null,

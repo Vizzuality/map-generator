@@ -1,8 +1,14 @@
 import { randomPoint } from '@turf/random';
 
-export const DEFAULT_CONFIG = (id: string) => {
+export type PointsConfigProps = {
+  id: string;
+  bbox: [number, number, number, number];
+};
+
+export const DEFAULT_CONFIG = ({ id, bbox }: PointsConfigProps) => {
+  console.log(bbox);
   const randomPoints = randomPoint(100, {
-    // bbox: [-122.519, 37.704, -122.355, 37.829],
+    bbox,
   });
 
   console.log(randomPoints);
@@ -13,12 +19,10 @@ export const DEFAULT_CONFIG = (id: string) => {
     data: randomPoints.features,
     stroked: true,
     filled: true,
-    radiusScale: 6,
-    radiusMinPixels: 1,
-    radiusMaxPixels: 100,
     lineWidthMinPixels: 1,
+    radiusUnits: 'pixels',
     getPosition: '@@=geometry.coordinates',
-    getRadius: 5,
+    getRadius: 10,
     getFillColor: [255, 140, 0],
     getLineColor: [0, 0, 0],
   };
