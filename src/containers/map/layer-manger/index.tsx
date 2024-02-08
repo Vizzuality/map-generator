@@ -1,13 +1,13 @@
-import chroma from 'chroma-js';
 import { useAtomValue } from 'jotai';
 import { Layer } from 'react-map-gl';
-import { $layers } from '@/stores/layers';
-import DeckJsonLayer from '@/components/map/layers/deck-layer';
+import { $layers, $layersSettings } from '@/stores/layers';
 import { DeckMapboxOverlayProvider } from '@/components/map/provider';
 import { LayerManagerItem } from '@/containers/map/layer-manger/item';
+import { getParams } from '@/lib/json-converter';
 
 export const LayerManager = () => {
   const layers = useAtomValue($layers);
+  const layersSettings = useAtomValue($layersSettings);
 
   return (
     <DeckMapboxOverlayProvider>
@@ -40,7 +40,10 @@ export const LayerManager = () => {
             <LayerManagerItem
               {...l}
               key={l.id}
-              settings={{ opacity: 1, visibility: true }}
+              settings={getParams({
+                params_config: l.params_config,
+                settings: layersSettings[l.id] || {},
+              })}
               beforeId={beforeId}
             />
           );

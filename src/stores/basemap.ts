@@ -1,6 +1,6 @@
 import { type Getter, atom } from 'jotai';
-import type { BasemapControl, BasemapFreeProvider } from '@/components/controls/basemap/types';
 import { FREE_BASEMAPS } from '@/constants/map';
+import type { BasemapControl, BasemapFreeProvider } from '@/containers/basemap/types';
 
 export const $basemap = atom<BasemapControl['basemap']>('mapbox');
 

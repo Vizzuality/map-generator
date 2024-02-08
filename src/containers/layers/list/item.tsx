@@ -1,16 +1,17 @@
 'use client';
 
-import { useSetAtom } from 'jotai';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { Trash2 } from 'lucide-react';
 import { createElement, useCallback } from 'react';
-import { $layers } from '@/stores/layers';
-import LayerTypes from '@/components/controls/layers/list/types';
-import { LayerProps } from '@/components/controls/layers/types';
+import { $layers, $layersSettings } from '@/stores/layers';
 import { Button } from '@/components/ui/button';
+import LayerTypes from '@/containers/layers/list/types';
+import { LayerProps } from '@/containers/layers/types';
 
 const LayersControlListItem = (props: LayerProps) => {
   const { id, name, type } = props;
   const setLayers = useSetAtom($layers);
+  const layerSettings = useAtomValue($layersSettings);
 
   const handleRemoveLayer = useCallback(() => {
     setLayers((prevLayers) => prevLayers.filter((layer) => layer.id !== id));
@@ -20,7 +21,10 @@ const LayersControlListItem = (props: LayerProps) => {
     <div key={id} className="space-y-4 rounded border p-4">
       <h2 className="uppercase">{name}</h2>
 
-      {createElement(LayerTypes[type], props)}
+      {createElement(LayerTypes[type], {
+        ...props,
+        settings: layerSettings[id],
+      })}
 
       <div>
         <Button variant="outline" size="sm" onClick={handleRemoveLayer}>

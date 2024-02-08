@@ -1,4 +1,4 @@
-import { LayerProps } from '@/components/controls/layers/types';
+import { LayerProps } from '@/containers/layers/types';
 
 export const LayersPolygon = ({ name }: LayerProps) => {
   return <section>{name}</section>;

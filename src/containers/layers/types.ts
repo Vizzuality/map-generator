@@ -6,6 +6,7 @@ export type LayerProps = {
   name: string;
   config: Record<string, unknown>;
   params_config: ParamsConfig;
+  settings?: Record<string, unknown>;
 };
 
 export type LayerType = (typeof LAYER_TYPES)[number];

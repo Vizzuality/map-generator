@@ -3,11 +3,6 @@
 import { useAtom } from 'jotai';
 import { useCallback } from 'react';
 import { $basemap, $basemapMapbox, $basemapCustom, $basemapFree } from '@/stores/basemap';
-import type {
-  BasemapControl,
-  BasemapFree,
-  BasemapMapbox,
-} from '@/components/controls/basemap/types';
 import { Input } from '@/components/ui/input';
 import {
   Select,
@@ -17,6 +12,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { FREE_BASEMAPS, MAPBOX_BASEMAPS } from '@/constants/map';
+import type { BasemapControl, BasemapFree, BasemapMapbox } from '@/containers/basemap/types';
 
 const BasemapControl = () => {
   const [basemap, setBasemap] = useAtom($basemap);

@@ -1,11 +1,11 @@
 import { Plus } from 'lucide-react';
-import { LayersAddList } from '@/components/controls/layers/add/list';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { LayersAddList } from '@/containers/layers/add/list';
 
 export const LayersAdd = () => {
   return (

@@ -2,8 +2,8 @@
 
 import { useAtomValue } from 'jotai';
 import { $layers } from '@/stores/layers';
-import { LayersAdd } from '@/components/controls/layers/add';
-import LayersControlList from '@/components/controls/layers/list';
+import { LayersAdd } from '@/containers/layers/add';
+import LayersControlList from '@/containers/layers/list';
 
 const LayersControl = () => {
   const layers = useAtomValue($layers);

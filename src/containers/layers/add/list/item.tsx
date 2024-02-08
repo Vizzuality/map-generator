@@ -1,24 +1,25 @@
+import chroma from 'chroma-js';
 import { useAtom, useSetAtom } from 'jotai';
 import { useId } from 'react';
 import { useMap } from 'react-map-gl';
 import { $layers, $layersCount } from '@/stores/layers';
+import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import {
   DEFAULT_CONFIG as POINTS_DEFAULT_CONFIG,
   PointsConfigProps,
-} from '@/components/controls/layers/list/types/points/generator';
+} from '@/containers/layers/list/types/points/generator';
 
 import {
   DEFAULT_CONFIG as POLYGON_DEFAULT_CONFIG,
   PolygonConfigProps,
-} from '@/components/controls/layers/list/types/polygon/generator';
+} from '@/containers/layers/list/types/polygon/generator';
 
 import {
   DEFAULT_CONFIG as RASTER_DEFAULT_CONFIG,
   RasterConfigProps,
-} from '@/components/controls/layers/list/types/raster/generator';
+} from '@/containers/layers/list/types/raster/generator';
 
-import { LayerProps, LayerType } from '@/components/controls/layers/types';
-import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
+import { LayerProps, LayerType } from '@/containers/layers/types';
 
 const DEFAULT_CONFIGS: Record<
   LayerType['type'],
@@ -47,6 +48,16 @@ export const LayersAddListItem = ({ id, name, type }: LayerType) => {
               id: `${id}-${uuid}`,
               bbox: map!.getBounds().toArray().flat() as [number, number, number, number],
             }),
+            params_config: [
+              {
+                key: 'getFillColor',
+                default: '#f97316',
+              },
+              {
+                key: 'getLineColor',
+                default: '#000000',
+              },
+            ],
           },
           ...prevLayers,
         ] satisfies LayerProps[]

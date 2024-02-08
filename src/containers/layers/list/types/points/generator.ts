@@ -79,7 +79,13 @@ export const DEFAULT_CONFIG = ({ id, bbox }: PointsConfigProps) => {
     radiusUnits: 'pixels',
     getPosition: '@@=geometry.coordinates',
     getRadius: 10,
-    getFillColor: [249, 115, 22],
-    getLineColor: [0, 0, 0],
+    getFillColor: {
+      '@@function': 'setColor',
+      color: '@@#params.getFillColor',
+    },
+    getLineColor: {
+      '@@function': 'setColor',
+      color: '@@#params.getLineColor',
+    },
   };
 };

@@ -1,5 +1,5 @@
-import BasemapControl from '@/components/controls/basemap';
-import LayerControl from '@/components/controls/layers';
+import BasemapControl from '@/containers/basemap';
+import LayerControl from '@/containers/layers';
 import Map from '@/containers/map';
 import Sidebar from '@/containers/sidebar';
 

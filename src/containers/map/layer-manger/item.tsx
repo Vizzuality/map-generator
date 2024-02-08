@@ -2,12 +2,12 @@
 
 import { Layer } from 'deck.gl/typed';
 
-import type { LayerProps } from '@/components/controls/layers/types';
 import DeckLayer from '@/components/map/layers/deck-layer';
 import { parseConfig } from '@/lib/json-converter';
+import type { LayerProps } from '@/containers/layers/types';
 
 interface LayerManagerItemProps {
-  id: string;
+  id: string | number;
   beforeId: string;
   config: LayerProps['config'];
   params_config: LayerProps['params_config'];

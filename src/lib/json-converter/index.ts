@@ -2,7 +2,8 @@
 
 import { JSONConfiguration, JSONConverter } from '@deck.gl/json/typed';
 import React from 'react';
-import { ParamsConfig } from '@/components/controls/layers/types';
+import { ParamsConfig } from '@/containers/layers/types';
+import { FUNCTIONS } from '@/lib/json-converter/functions';
 
 export const JSON_CONFIGURATION = new JSONConfiguration({
   React,
@@ -12,7 +13,7 @@ export const JSON_CONFIGURATION = new JSONConfiguration({
     require('@deck.gl/layers'),
     require('@deck.gl/aggregation-layers')
   ),
-  functions: {},
+  functions: FUNCTIONS,
   enumerations: {},
   reactComponents: {},
 });
@@ -61,7 +62,8 @@ export const parseConfig = <T>({
   params_config,
   settings,
 }: ParseConfigurationProps): T | null => {
-  if (!config) {
+  if (!config || !params_config) {
+    new Error('config or params_config is not defined');
     return null;
   }
 

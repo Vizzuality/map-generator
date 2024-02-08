@@ -1,6 +1,6 @@
-import type { BasemapProvider } from './types';
+import type { BasemapFreeProvider } from './types';
 
-export const basemapProviders: BasemapProvider[] = [
+export const basemapProviders: BasemapFreeProvider[] = [
   {
     name: 'OpenStreetMap',
     url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',

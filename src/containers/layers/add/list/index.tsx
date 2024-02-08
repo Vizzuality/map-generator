@@ -1,4 +1,4 @@
-import { LayersAddListItem } from '@/components/controls/layers/add/list/item';
+import { LayersAddListItem } from '@/containers/layers/add/list/item';
 import { LAYER_TYPES } from '@/constants/layers';
 
 export const LayersAddList = () => {
