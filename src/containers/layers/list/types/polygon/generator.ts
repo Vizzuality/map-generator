@@ -25,3 +25,18 @@ export const DEFAULT_CONFIG = ({ id, bbox }: PolygonConfigProps) => {
     lineWidthUnits: 'pixels',
   };
 };
+
+export const DEFAULT_CONFIG_PARAMS = [
+  {
+    key: 'getFillColor',
+    default: '#f97316',
+  },
+  {
+    key: 'getLineColor',
+    default: '#000000',
+  },
+  {
+    key: 'getLineWidth',
+    default: 1,
+  },
+];

@@ -27,3 +27,18 @@ export const DEFAULT_CONFIG = ({ id, bbox }: RasterConfigProps) => {
     getLineColor: [0, 0, 0],
   };
 };
+
+export const DEFAULT_CONFIG_PARAMS = [
+  {
+    key: 'getFillColor',
+    default: '#f97316',
+  },
+  {
+    key: 'getLineColor',
+    default: '#000000',
+  },
+  {
+    key: 'getLineWidth',
+    default: 1,
+  },
+];

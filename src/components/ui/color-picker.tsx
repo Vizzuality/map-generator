@@ -14,7 +14,7 @@ const ColorPicker = ({ color, onChange }: ColorPickerProps) => {
     <Popover>
       <PopoverTrigger>
         <div
-          className="h-8 w-8 rounded-md border border-gray-300"
+          className="h-5 w-5 rounded-md border border-gray-300"
           style={{ backgroundColor: color }}
         />
       </PopoverTrigger>

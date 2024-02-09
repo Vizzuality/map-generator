@@ -6,20 +6,23 @@ import { $layers, $layersCount } from '@/stores/layers';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import {
   DEFAULT_CONFIG as POINTS_DEFAULT_CONFIG,
+  DEFAULT_CONFIG_PARAMS as POINTS_DEFAULT_CONFIG_PARAMS,
   PointsConfigProps,
 } from '@/containers/layers/list/types/points/generator';
 
 import {
   DEFAULT_CONFIG as POLYGON_DEFAULT_CONFIG,
+  DEFAULT_CONFIG_PARAMS as POLYGON_DEFAULT_CONFIG_PARAMS,
   PolygonConfigProps,
 } from '@/containers/layers/list/types/polygon/generator';
 
 import {
   DEFAULT_CONFIG as RASTER_DEFAULT_CONFIG,
+  DEFAULT_CONFIG_PARAMS as RASTER_DEFAULT_CONFIG_PARAMS,
   RasterConfigProps,
 } from '@/containers/layers/list/types/raster/generator';
 
-import { LayerProps, LayerType } from '@/containers/layers/types';
+import { LayerProps, LayerType, ParamsConfig } from '@/containers/layers/types';
 
 const DEFAULT_CONFIGS: Record<
   LayerType['type'],
@@ -28,6 +31,12 @@ const DEFAULT_CONFIGS: Record<
   points: POINTS_DEFAULT_CONFIG,
   polygon: POLYGON_DEFAULT_CONFIG,
   raster: RASTER_DEFAULT_CONFIG,
+};
+
+const DEFAULT_CONFIGS_PARAMS: Record<LayerType['type'], ParamsConfig> = {
+  points: POINTS_DEFAULT_CONFIG_PARAMS,
+  polygon: POLYGON_DEFAULT_CONFIG_PARAMS,
+  raster: RASTER_DEFAULT_CONFIG_PARAMS,
 };
 
 export const LayersAddListItem = ({ id, name, type }: LayerType) => {
@@ -48,16 +57,7 @@ export const LayersAddListItem = ({ id, name, type }: LayerType) => {
               id: `${id}-${uuid}`,
               bbox: map!.getBounds().toArray().flat() as [number, number, number, number],
             }),
-            params_config: [
-              {
-                key: 'getFillColor',
-                default: '#f97316',
-              },
-              {
-                key: 'getLineColor',
-                default: '#000000',
-              },
-            ],
+            params_config: DEFAULT_CONFIGS_PARAMS[type],
           },
           ...prevLayers,
         ] satisfies LayerProps[]

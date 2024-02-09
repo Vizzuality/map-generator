@@ -76,16 +76,44 @@ export const DEFAULT_CONFIG = ({ id, bbox }: PointsConfigProps) => {
     stroked: true,
     filled: true,
     lineWidthMinPixels: 1,
-    radiusUnits: 'pixels',
     getPosition: '@@=geometry.coordinates',
-    getRadius: 10,
+    // Radius
+    radiusUnits: 'pixels',
+    getRadius: '@@#params.getRadius',
+    // Fill
     getFillColor: {
       '@@function': 'setColor',
       color: '@@#params.getFillColor',
     },
+    // Line
+    lineWidthUnits: 'pixels',
     getLineColor: {
       '@@function': 'setColor',
       color: '@@#params.getLineColor',
     },
+    getLineWidth: '@@#params.getLineWidth',
   };
 };
+
+export const DEFAULT_CONFIG_PARAMS = [
+  {
+    type: 'color',
+    key: 'getFillColor',
+    default: '#f97316',
+  },
+  {
+    type: 'color',
+    key: 'getLineColor',
+    default: '#000000',
+  },
+  {
+    type: 'number',
+    key: 'getLineWidth',
+    default: 1,
+  },
+  {
+    type: 'number',
+    key: 'getRadius',
+    default: 10,
+  },
+];
