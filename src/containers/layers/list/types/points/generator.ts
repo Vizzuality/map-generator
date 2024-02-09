@@ -73,19 +73,19 @@ export const DEFAULT_CONFIG = ({ id, bbox }: PointsConfigProps) => {
     id,
     '@@type': 'ScatterplotLayer',
     data: points.features,
-    stroked: true,
-    filled: true,
     lineWidthMinPixels: 1,
     getPosition: '@@=geometry.coordinates',
     // Radius
     radiusUnits: 'pixels',
     getRadius: '@@#params.getRadius',
     // Fill
+    filled: '@@#params.filled',
     getFillColor: {
       '@@function': 'setColor',
       color: '@@#params.getFillColor',
     },
     // Line
+    stroked: '@@#params.stroked',
     lineWidthUnits: 'pixels',
     getLineColor: {
       '@@function': 'setColor',
@@ -97,9 +97,19 @@ export const DEFAULT_CONFIG = ({ id, bbox }: PointsConfigProps) => {
 
 export const DEFAULT_CONFIG_PARAMS = [
   {
+    type: 'boolean',
+    key: 'filled',
+    default: true,
+  },
+  {
     type: 'color',
     key: 'getFillColor',
     default: '#f97316',
+  },
+  {
+    type: 'boolean',
+    key: 'stroked',
+    default: true,
   },
   {
     type: 'color',
