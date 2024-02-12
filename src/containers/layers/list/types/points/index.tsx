@@ -44,6 +44,19 @@ export const LayersPoints = ({ id, name, params_config, settings = {} }: LayerPr
   return (
     <section className="divide-y">
       <div className="space-y-3 py-4">
+        <h2 className="shrink-0">Count</h2>
+        <div className="flex items-center space-x-2">
+          <h3 className="shrink-0">Count</h3>
+
+          <Input
+            value={`${s.count}`}
+            type="number"
+            min={0}
+            onChange={handleNumberChange.bind(this, 'count')}
+          />
+        </div>
+      </div>
+      <div className="space-y-3 py-4">
         <h2 className="shrink-0">Fill</h2>
 
         <div className="flex items-center space-x-2">

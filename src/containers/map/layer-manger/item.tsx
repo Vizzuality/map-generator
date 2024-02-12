@@ -21,13 +21,11 @@ export const LayerManagerItem = ({
   beforeId,
   settings,
 }: LayerManagerItemProps) => {
-  const c = parseConfig<Layer>({
+  let c = parseConfig<Layer>({
     config,
     params_config,
     settings,
   });
-
-  console.log(c);
 
   return <DeckLayer id={`${id}-layer`} beforeId={beforeId} config={c} />;
 };
