@@ -1,4 +1,4 @@
-import { setPointData } from '@/lib/json-converter/functions';
+import { setPointsData } from '@/lib/json-converter/functions';
 
 export type PointsConfigProps = {
   id: string;
@@ -6,7 +6,7 @@ export type PointsConfigProps = {
 };
 
 export const DEFAULT_CONFIG = ({ id, bbox }: PointsConfigProps) => {
-  const points = setPointData({
+  const points = setPointsData({
     count: 100,
     bbox,
   });
@@ -14,10 +14,14 @@ export const DEFAULT_CONFIG = ({ id, bbox }: PointsConfigProps) => {
   return {
     id,
     '@@type': 'ScatterplotLayer',
-    data: points,
-    // dataComparator: {
-    //   '@@function': 'getPointsDataComparator',
-    // },
+    data: {
+      '@@function': 'setPointsData',
+      count: '@@#params.count',
+      bbox,
+    },
+    dataComparator: {
+      '@@function': 'setPointsDataComparator',
+    },
     lineWidthMinPixels: 1,
     getPosition: '@@=geometry.coordinates',
     // Radius

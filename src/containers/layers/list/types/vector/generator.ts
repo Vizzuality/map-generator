@@ -1,5 +1,3 @@
-import { setPointData } from '@/lib/json-converter/functions';
-
 export type VectorConfigProps = {
   id: string;
   bbox: [number, number, number, number];
@@ -13,9 +11,14 @@ export const DEFAULT_CONFIG = ({ id }: VectorConfigProps) => {
     // Fill
     filled: '@@#params.filled',
     getFillColor: {
-      '@@function': 'setColor',
+      '@@function': 'setAccessorColor',
       color: '@@#params.getFillColor',
     },
+
+    // getFillColor: {
+    //   '@@function': 'setColor',
+    //   color: '@@#params.getFillColor',
+    // },
     // Line
     stroked: '@@#params.stroked',
     lineWidthUnits: 'pixels',

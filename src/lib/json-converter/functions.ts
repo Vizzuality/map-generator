@@ -12,7 +12,7 @@ import COUNTRIES_JSON from '@/data/countries.json';
 
 const COUNTRIES = COUNTRIES_JSON as FeatureCollection<Polygon | MultiPolygon>;
 
-export const setPointData = ({
+export const setPointsData = ({
   count,
   bbox,
 }: {
@@ -55,17 +55,30 @@ export const setPointData = ({
   return featureCollection(points).features;
 };
 
-// export const getPointsDataComparator = ({ oldData, newData }) => {
-//   console.log({ oldData, newData });
-//   return true;
-// };
+export const setPointsDataComparator = () => {
+  return (oldData: unknown[], newData: unknown[]) => {
+    if (Array.isArray(oldData) && Array.isArray(newData)) {
+      return oldData.length === newData.length;
+    }
+
+    return false;
+  };
+};
 
 export const setColor = ({ color }: { color: string }) => {
   return chroma(color).rgb();
 };
 
+export const setAccessorColor = ({ color }: { color: string }) => {
+  const colorScale = chroma.scale(['white', color]);
+  return ({ properties }: { properties: Record<string, any> }) => {
+    return colorScale(properties.gis_area / 1000000).rgb();
+  };
+};
+
 export const FUNCTIONS = {
-  setPointData,
-  // getPointsDataComparator,
+  setPointsData,
+  setPointsDataComparator,
   setColor,
+  setAccessorColor,
 };
