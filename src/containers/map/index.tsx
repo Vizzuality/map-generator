@@ -31,7 +31,7 @@ const MapContainer = () => {
     <Map
       key={MAPBOX_TOKEN}
       id="default"
-      initialViewState={{ longitude: 0, latitude: 0, zoom: 0 }}
+      initialViewState={{ longitude: 0, latitude: 0, zoom: 2 }}
       mapboxAccessToken={MAPBOX_TOKEN}
       mapStyle={MAP_STYLE}
       preserveDrawingBuffer

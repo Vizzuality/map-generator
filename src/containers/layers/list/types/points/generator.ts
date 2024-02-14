@@ -69,7 +69,7 @@ export const DEFAULT_CONFIG_PARAMS = [
   {
     type: 'color',
     key: 'getFillColor',
-    default: ['#f97316'],
+    default: ['#3d7b1f'],
   },
   {
     type: 'boolean',

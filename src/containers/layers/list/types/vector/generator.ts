@@ -16,11 +16,6 @@ export const DEFAULT_CONFIG = ({ id }: VectorConfigProps) => {
       prop: 'gis_area',
       propFactor: 10000,
     },
-
-    // getFillColor: {
-    //   '@@function': 'setColor',
-    //   color: '@@#params.getFillColor',
-    // },
     // Line
     stroked: '@@#params.stroked',
     lineWidthUnits: 'pixels',
@@ -46,7 +41,7 @@ export const DEFAULT_CONFIG_PARAMS = [
   {
     type: 'color',
     key: 'getFillColor',
-    default: ['#f97316'],
+    default: ['#3d7b1f'],
   },
   {
     type: 'boolean',

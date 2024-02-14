@@ -93,7 +93,7 @@ export const LayersPoints = ({ id, params_config, settings = {} }: LayerProps) =
                   ...prev[id],
                   getFillColor: [
                     ...(Array.isArray(s.getFillColor) ? s.getFillColor : []),
-                    '#f97316',
+                    '#3d7b1f',
                   ],
                 },
               }));

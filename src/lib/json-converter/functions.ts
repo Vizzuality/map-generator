@@ -4,6 +4,7 @@ import {
   randomPoint,
   bboxPolygon,
   booleanIntersects,
+  randomPolygon,
 } from '@turf/turf';
 import chroma from 'chroma-js';
 import { Feature, FeatureCollection, MultiPolygon, Point, Polygon } from 'geojson';
@@ -12,6 +13,11 @@ import COUNTRIES_JSON from '@/data/countries.json';
 
 const COUNTRIES = COUNTRIES_JSON as FeatureCollection<Polygon | MultiPolygon>;
 
+/*
+  *****
+  POINTS
+  *****
+*/
 export const setPointsData = ({
   count,
   bbox,
@@ -67,6 +73,46 @@ export const setPointsDataComparator = () => {
   };
 };
 
+/*
+  *****
+  POLYGONS
+  *****
+*/
+export const setPolygonsData = ({
+  count,
+  vertices,
+  bbox,
+}: {
+  count: number;
+  vertices: number;
+  bbox: [number, number, number, number];
+}) => {
+  const lngDiff = bbox[2] - bbox[0];
+  const randomPolygons = randomPolygon(count, {
+    bbox,
+    num_vertices: vertices,
+    max_radial_length: lngDiff * 0.1,
+  });
+
+  return randomPolygons.features;
+};
+
+export const setPolygonsDataComparator = ({
+  count,
+  vertices,
+}: {
+  count: number;
+  vertices: number;
+}) => {
+  return (newData: unknown[], oldData: unknown[]) => {
+    if (Array.isArray(oldData) && Array.isArray(newData)) {
+      return oldData.length === newData.length;
+    }
+
+    return false;
+  };
+};
+
 export const setColor = ({
   color,
   prop,
@@ -90,5 +136,7 @@ export const setColor = ({
 export const FUNCTIONS = {
   setPointsData,
   setPointsDataComparator,
+  setPolygonsData,
+  setPolygonsDataComparator,
   setColor,
 };
