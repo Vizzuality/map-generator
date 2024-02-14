@@ -11,6 +11,7 @@ export const JSON_CONFIGURATION = new JSONConfiguration({
     //
     {},
     require('@deck.gl/layers'),
+    require('@deck.gl/geo-layers'),
     require('@deck.gl/aggregation-layers')
   ),
   functions: FUNCTIONS,

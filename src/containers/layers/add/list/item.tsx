@@ -22,21 +22,31 @@ import {
   RasterConfigProps,
 } from '@/containers/layers/list/types/raster/generator';
 
+import {
+  DEFAULT_CONFIG as VECTOR_DEFAULT_CONFIG,
+  DEFAULT_CONFIG_PARAMS as VECTOR_DEFAULT_CONFIG_PARAMS,
+  VectorConfigProps,
+} from '@/containers/layers/list/types/vector/generator';
+
 import { LayerProps, LayerType, ParamsConfig } from '@/containers/layers/types';
 
 const DEFAULT_CONFIGS: Record<
   LayerType['type'],
-  (p: PointsConfigProps | PolygonConfigProps | RasterConfigProps) => Record<string, unknown>
+  (
+    p: PointsConfigProps | PolygonConfigProps | RasterConfigProps | VectorConfigProps
+  ) => Record<string, unknown>
 > = {
   points: POINTS_DEFAULT_CONFIG,
   polygon: POLYGON_DEFAULT_CONFIG,
   raster: RASTER_DEFAULT_CONFIG,
+  vector: VECTOR_DEFAULT_CONFIG,
 };
 
 const DEFAULT_CONFIGS_PARAMS: Record<LayerType['type'], ParamsConfig> = {
   points: POINTS_DEFAULT_CONFIG_PARAMS,
   polygon: POLYGON_DEFAULT_CONFIG_PARAMS,
   raster: RASTER_DEFAULT_CONFIG_PARAMS,
+  vector: VECTOR_DEFAULT_CONFIG_PARAMS,
 };
 
 export const LayersAddListItem = ({ id, name, type }: LayerType) => {

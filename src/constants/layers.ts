@@ -14,4 +14,9 @@ export const LAYER_TYPES = [
     type: 'raster',
     name: 'Raster',
   },
+  {
+    id: 'vector',
+    type: 'vector',
+    name: 'Vector',
+  },
 ] as const;

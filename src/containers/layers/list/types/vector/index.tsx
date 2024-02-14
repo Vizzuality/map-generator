@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { LayerProps } from '@/containers/layers/types';
 import { getParams } from '@/lib/json-converter';
 
-export const LayersPoints = ({ id, params_config, settings = {} }: LayerProps) => {
+export const LayersVector = ({ id, params_config, settings = {} }: LayerProps) => {
   const s = getParams({ params_config, settings });
   const setLayersSettings = useSetAtom($layersSettings);
 
@@ -43,19 +43,6 @@ export const LayersPoints = ({ id, params_config, settings = {} }: LayerProps) =
 
   return (
     <section className="divide-y">
-      <div className="space-y-3 py-4">
-        <h2 className="shrink-0">Count</h2>
-        <div className="flex items-center space-x-2">
-          <h3 className="shrink-0">Count</h3>
-
-          <Input
-            value={`${s.count}`}
-            type="number"
-            min={0}
-            onChange={handleNumberChange.bind(this, 'count')}
-          />
-        </div>
-      </div>
       <div className="space-y-3 py-4">
         <h2 className="shrink-0">Fill</h2>
 
@@ -108,7 +95,7 @@ export const LayersPoints = ({ id, params_config, settings = {} }: LayerProps) =
         </div>
       </div>
 
-      <div className="space-y-3 py-4">
+      {/* <div className="space-y-3 py-4">
         <h2 className="shrink-0">Radius</h2>
         <div className="flex items-center space-x-2">
           <h3 className="shrink-0">Radius</h3>
@@ -120,9 +107,9 @@ export const LayersPoints = ({ id, params_config, settings = {} }: LayerProps) =
             onChange={handleNumberChange.bind(this, 'getRadius')}
           />
         </div>
-      </div>
+      </div> */}
     </section>
   );
 };
 
-export default LayersPoints;
+export default LayersVector;
