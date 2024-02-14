@@ -6,10 +6,11 @@ export type PolygonConfigProps = {
 };
 
 export const DEFAULT_CONFIG = ({ id, bbox }: PolygonConfigProps) => {
+  const lngDiff = bbox[2] - bbox[0];
   const randomPolygons = randomPolygon(5, {
     bbox,
     num_vertices: 5,
-    max_radial_length: 1,
+    max_radial_length: lngDiff * 0.1,
   });
 
   return {
