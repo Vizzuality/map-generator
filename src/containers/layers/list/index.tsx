@@ -1,5 +1,6 @@
 'use client';
 
+import { Accordion } from '@radix-ui/react-accordion';
 import { useAtomValue } from 'jotai';
 import { $layers } from '@/stores/layers';
 import LayersControlListItem from '@/containers/layers/list/item';
