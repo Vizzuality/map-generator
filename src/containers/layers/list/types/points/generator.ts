@@ -1,16 +1,9 @@
-import { setPointsData } from '@/lib/json-converter/functions';
-
 export type PointsConfigProps = {
   id: string;
   bbox: [number, number, number, number];
 };
 
 export const DEFAULT_CONFIG = ({ id, bbox }: PointsConfigProps) => {
-  const points = setPointsData({
-    count: 100,
-    bbox,
-  });
-
   return {
     id,
     '@@type': 'ScatterplotLayer',
@@ -22,6 +15,16 @@ export const DEFAULT_CONFIG = ({ id, bbox }: PointsConfigProps) => {
     dataComparator: {
       '@@function': 'setPointsDataComparator',
     },
+    dataTransform: (data: unknown[]) => {
+      return data.map((d: any) => {
+        return {
+          ...d,
+          properties: {
+            value: Math.random(),
+          },
+        };
+      });
+    },
     lineWidthMinPixels: 1,
     getPosition: '@@=geometry.coordinates',
     // Radius
@@ -32,6 +35,7 @@ export const DEFAULT_CONFIG = ({ id, bbox }: PointsConfigProps) => {
     getFillColor: {
       '@@function': 'setColor',
       color: '@@#params.getFillColor',
+      prop: 'value',
     },
     // Line
     stroked: '@@#params.stroked',
@@ -39,8 +43,15 @@ export const DEFAULT_CONFIG = ({ id, bbox }: PointsConfigProps) => {
     getLineColor: {
       '@@function': 'setColor',
       color: '@@#params.getLineColor',
+      prop: 'value',
     },
     getLineWidth: '@@#params.getLineWidth',
+    updateTriggers: {
+      getFillColor: '@@#params.getFillColor',
+      getLineColor: '@@#params.getLineColor',
+      getLineWidth: '@@#params.getLineWidth',
+      getRadius: '@@#params.getRadius',
+    },
   };
 };
 
@@ -58,7 +69,7 @@ export const DEFAULT_CONFIG_PARAMS = [
   {
     type: 'color',
     key: 'getFillColor',
-    default: '#f97316',
+    default: ['#f97316'],
   },
   {
     type: 'boolean',
@@ -68,7 +79,7 @@ export const DEFAULT_CONFIG_PARAMS = [
   {
     type: 'color',
     key: 'getLineColor',
-    default: '#000000',
+    default: ['#000000'],
   },
   {
     type: 'number',

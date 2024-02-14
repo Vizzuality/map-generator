@@ -11,8 +11,10 @@ export const DEFAULT_CONFIG = ({ id }: VectorConfigProps) => {
     // Fill
     filled: '@@#params.filled',
     getFillColor: {
-      '@@function': 'setAccessorColor',
+      '@@function': 'setColor',
       color: '@@#params.getFillColor',
+      prop: 'gis_area',
+      propFactor: 10000,
     },
 
     // getFillColor: {
@@ -27,6 +29,11 @@ export const DEFAULT_CONFIG = ({ id }: VectorConfigProps) => {
       color: '@@#params.getLineColor',
     },
     getLineWidth: '@@#params.getLineWidth',
+    updateTriggers: {
+      getFillColor: '@@#params.getFillColor',
+      getLineColor: '@@#params.getLineColor',
+      getLineWidth: '@@#params.getLineWidth',
+    },
   };
 };
 
@@ -39,7 +46,7 @@ export const DEFAULT_CONFIG_PARAMS = [
   {
     type: 'color',
     key: 'getFillColor',
-    default: '#f97316',
+    default: ['#f97316'],
   },
   {
     type: 'boolean',
@@ -49,7 +56,7 @@ export const DEFAULT_CONFIG_PARAMS = [
   {
     type: 'color',
     key: 'getLineColor',
-    default: '#000000',
+    default: ['#000000'],
   },
   {
     type: 'number',

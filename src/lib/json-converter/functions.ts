@@ -36,10 +36,12 @@ export const setPointsData = ({
       bbox,
     });
 
+    const p: Feature<Point> = r.features[0] as Feature<Point>;
+
     // check if it's inside a country
     const isInside = COUNTRIES.features.some((country) => {
-      if (r.features[0]) {
-        return booleanPointInPolygon(r.features[0], country);
+      if (p) {
+        return booleanPointInPolygon(p, country);
       }
     });
 
@@ -47,8 +49,8 @@ export const setPointsData = ({
       i--;
     }
 
-    if (isInside && r.features[0]) {
-      points.push(r.features[0]);
+    if (isInside && p) {
+      points.push(p);
     }
   }
 
@@ -65,14 +67,23 @@ export const setPointsDataComparator = () => {
   };
 };
 
-export const setColor = ({ color }: { color: string }) => {
-  return chroma(color).rgb();
-};
+export const setColor = ({
+  color,
+  prop,
+  propFactor = 1,
+}: {
+  color: string[];
+  prop?: string;
+  propFactor?: number;
+}) => {
+  const colorScale = chroma.scale(color);
 
-export const setAccessorColor = ({ color }: { color: string }) => {
-  const colorScale = chroma.scale(['white', color]);
   return ({ properties }: { properties: Record<string, any> }) => {
-    return colorScale(properties.gis_area / 1000000).rgb();
+    if (!prop) {
+      return colorScale(1).rgb();
+    }
+
+    return colorScale(properties[prop] / propFactor).rgb();
   };
 };
 
@@ -80,5 +91,4 @@ export const FUNCTIONS = {
   setPointsData,
   setPointsDataComparator,
   setColor,
-  setAccessorColor,
 };

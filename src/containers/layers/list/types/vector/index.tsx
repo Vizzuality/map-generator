@@ -11,12 +11,16 @@ export const LayersVector = ({ id, params_config, settings = {} }: LayerProps) =
   const s = getParams({ params_config, settings });
   const setLayersSettings = useSetAtom($layersSettings);
 
-  const handleColorChange = (who: string, color: string) => {
+  const handleColorChange = (who: string, i: number, color: string) => {
+    const prevColors = s[who] as string[];
+    const colors = [...prevColors];
+    colors[i] = color;
+
     setLayersSettings((prev) => ({
       ...prev,
       [id]: {
         ...prev[id],
-        [who]: color,
+        [who]: colors,
       },
     }));
   };
@@ -56,11 +60,33 @@ export const LayersVector = ({ id, params_config, settings = {} }: LayerProps) =
         </div>
         <div className="flex items-center space-x-2">
           <h3 className="shrink-0">color</h3>
+          {Array.isArray(s.getFillColor) &&
+            s.getFillColor.map((color, i) => (
+              <ColorPicker
+                key={`${i}`}
+                color={`${color}`}
+                onChange={handleColorChange.bind(this, 'getFillColor', i)}
+              />
+            ))}
 
-          <ColorPicker
-            color={`${s.getFillColor}`}
-            onChange={handleColorChange.bind(this, 'getFillColor')}
-          />
+          <button
+            type="button"
+            className="text-xs text-primary hover:underline"
+            onClick={() => {
+              setLayersSettings((prev) => ({
+                ...prev,
+                [id]: {
+                  ...prev[id],
+                  getFillColor: [
+                    ...(Array.isArray(s.getFillColor) ? s.getFillColor : []),
+                    '#f97316',
+                  ],
+                },
+              }));
+            }}
+          >
+            Add color
+          </button>
         </div>
       </div>
 
@@ -77,11 +103,14 @@ export const LayersVector = ({ id, params_config, settings = {} }: LayerProps) =
         </div>
         <div className="flex items-center space-x-2">
           <h3 className="shrink-0">color</h3>
-
-          <ColorPicker
-            color={`${s.getLineColor}`}
-            onChange={handleColorChange.bind(this, 'getLineColor')}
-          />
+          {Array.isArray(s.getLineColor) &&
+            s.getLineColor.map((color, i) => (
+              <ColorPicker
+                key={`${i}`}
+                color={`${color}`}
+                onChange={handleColorChange.bind(this, 'getLineColor', i)}
+              />
+            ))}
         </div>
         <div className="flex items-center space-x-2">
           <h3 className="shrink-0">width</h3>
