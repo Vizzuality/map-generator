@@ -2,8 +2,8 @@ import { useSetAtom } from 'jotai';
 import { ChangeEvent } from 'react';
 import { $layersSettings } from '@/stores/layers';
 import { Checkbox } from '@/components/ui/checkbox';
-import ColorPicker from '@/components/ui/color-picker';
 import { Input } from '@/components/ui/input';
+import { ColorPickerField } from '@/containers/fields/color-picker';
 import { LayerProps } from '@/containers/layers/types';
 import { getParams } from '@/lib/json-converter';
 
@@ -11,11 +11,7 @@ export const LayersPolygon = ({ id, params_config, settings = {} }: LayerProps) 
   const s = getParams({ params_config, settings });
   const setLayersSettings = useSetAtom($layersSettings);
 
-  const handleColorChange = (who: string, i: number, color: string) => {
-    const prevColors = s[who] as string[];
-    const colors = [...prevColors];
-    colors[i] = color;
-
+  const handleColorChange = (who: string, colors: string[]) => {
     setLayersSettings((prev) => ({
       ...prev,
       [id]: {
@@ -83,33 +79,10 @@ export const LayersPolygon = ({ id, params_config, settings = {} }: LayerProps) 
         </div>
         <div className="flex items-center space-x-2">
           <h3 className="shrink-0">color</h3>
-          {Array.isArray(s.getFillColor) &&
-            s.getFillColor.map((color, i) => (
-              <ColorPicker
-                key={`${i}`}
-                color={`${color}`}
-                onChange={handleColorChange.bind(this, 'getFillColor', i)}
-              />
-            ))}
-
-          <button
-            type="button"
-            className="text-xs text-primary hover:underline"
-            onClick={() => {
-              setLayersSettings((prev) => ({
-                ...prev,
-                [id]: {
-                  ...prev[id],
-                  getFillColor: [
-                    ...(Array.isArray(s.getFillColor) ? s.getFillColor : []),
-                    '#3d7b1f',
-                  ],
-                },
-              }));
-            }}
-          >
-            Add color
-          </button>
+          <ColorPickerField
+            colors={s.getFillColor as string[]}
+            onChange={handleColorChange.bind(this, 'getFillColor')}
+          />
         </div>
       </div>
 
@@ -126,14 +99,11 @@ export const LayersPolygon = ({ id, params_config, settings = {} }: LayerProps) 
         </div>
         <div className="flex items-center space-x-2">
           <h3 className="shrink-0">color</h3>
-          {Array.isArray(s.getLineColor) &&
-            s.getLineColor.map((color, i) => (
-              <ColorPicker
-                key={`${i}`}
-                color={`${color}`}
-                onChange={handleColorChange.bind(this, 'getLineColor', i)}
-              />
-            ))}
+
+          <ColorPickerField
+            colors={s.getLineColor as string[]}
+            onChange={handleColorChange.bind(this, 'getLineColor')}
+          />
         </div>
         <div className="flex items-center space-x-2">
           <h3 className="shrink-0">width</h3>

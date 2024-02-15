@@ -1,9 +1,9 @@
 import { useSetAtom } from 'jotai';
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useCallback, useMemo } from 'react';
 import { $layersSettings } from '@/stores/layers';
 import { Checkbox } from '@/components/ui/checkbox';
-import ColorPicker from '@/components/ui/color-picker';
 import { Input } from '@/components/ui/input';
+import { ColorPickerField } from '@/containers/fields/color-picker';
 import { LayerProps } from '@/containers/layers/types';
 import { getParams } from '@/lib/json-converter';
 
@@ -11,39 +11,87 @@ export const LayersVector = ({ id, params_config, settings = {} }: LayerProps) =
   const s = getParams({ params_config, settings });
   const setLayersSettings = useSetAtom($layersSettings);
 
-  const handleColorChange = (who: string, i: number, color: string) => {
-    const prevColors = s[who] as string[];
-    const colors = [...prevColors];
-    colors[i] = color;
+  const handleColorChange = useCallback(
+    (who: string, colors: string[]) => {
+      setLayersSettings((prev) => ({
+        ...prev,
+        [id]: {
+          ...prev[id],
+          [who]: colors,
+        },
+      }));
+    },
+    [id, setLayersSettings]
+  );
 
-    setLayersSettings((prev) => ({
-      ...prev,
-      [id]: {
-        ...prev[id],
-        [who]: colors,
-      },
-    }));
-  };
+  const handleNumberChange = useCallback(
+    (who: string, e: ChangeEvent<HTMLInputElement>) => {
+      setLayersSettings((prev) => ({
+        ...prev,
+        [id]: {
+          ...prev[id],
+          [who]: +e.target.value,
+        },
+      }));
+    },
+    [id, setLayersSettings]
+  );
 
-  const handleNumberChange = (who: string, e: ChangeEvent<HTMLInputElement>) => {
-    setLayersSettings((prev) => ({
-      ...prev,
-      [id]: {
-        ...prev[id],
-        [who]: +e.target.value,
-      },
-    }));
-  };
+  const handleBooleanChange = useCallback(
+    (who: string, e: boolean) => {
+      setLayersSettings((prev) => ({
+        ...prev,
+        [id]: {
+          ...prev[id],
+          [who]: e,
+        },
+      }));
+    },
+    [id, setLayersSettings]
+  );
 
-  const handleBooleanChange = (who: string, e: boolean) => {
-    setLayersSettings((prev) => ({
-      ...prev,
-      [id]: {
-        ...prev[id],
-        [who]: e,
-      },
-    }));
-  };
+  // const ELEMENTS = useMemo(() => {
+  //   return params_config.map((param) => {
+  //     switch (param.type) {
+  //       case 'boolean':
+  //         return (
+  //           <div className="flex items-center space-x-2">
+  //             <h3 className="shrink-0">{param.label}</h3>
+  //             <Checkbox
+  //               checked={!!s[param.key]}
+  //               onCheckedChange={handleBooleanChange.bind(this, param.key)}
+  //             />
+  //           </div>
+  //         );
+  //       case 'color':
+  //         return (
+  //           <div className="flex items-center space-x-2">
+  //             <h3 className="shrink-0">{param.label}</h3>
+  //             <ColorPickerField
+  //               colors={s[param.key] as string[]}
+  //               onChange={handleColorChange.bind(this, param.key)}
+  //             />
+  //           </div>
+  //         );
+  //       case 'number':
+  //         return (
+  //           <div className="flex items-center space-x-2">
+  //             <h3 className="shrink-0">{param.label}</h3>
+  //             <Input
+  //               value={`${s[param.key]}`}
+  //               type="number"
+  //               min={0}
+  //               onChange={handleNumberChange.bind(this, param.key)}
+  //             />
+  //           </div>
+  //         );
+  //       default:
+  //         return null;
+  //     }
+  //   });
+  // }, [params_config, s, handleBooleanChange, handleColorChange, handleNumberChange]);
+
+  // console.log(ELEMENTS);
 
   return (
     <section className="divide-y">
@@ -60,33 +108,11 @@ export const LayersVector = ({ id, params_config, settings = {} }: LayerProps) =
         </div>
         <div className="flex items-center space-x-2">
           <h3 className="shrink-0">color</h3>
-          {Array.isArray(s.getFillColor) &&
-            s.getFillColor.map((color, i) => (
-              <ColorPicker
-                key={`${i}`}
-                color={`${color}`}
-                onChange={handleColorChange.bind(this, 'getFillColor', i)}
-              />
-            ))}
 
-          <button
-            type="button"
-            className="text-xs text-primary hover:underline"
-            onClick={() => {
-              setLayersSettings((prev) => ({
-                ...prev,
-                [id]: {
-                  ...prev[id],
-                  getFillColor: [
-                    ...(Array.isArray(s.getFillColor) ? s.getFillColor : []),
-                    '#3d7b1f',
-                  ],
-                },
-              }));
-            }}
-          >
-            Add color
-          </button>
+          <ColorPickerField
+            colors={s.getFillColor as string[]}
+            onChange={handleColorChange.bind(this, 'getFillColor')}
+          />
         </div>
       </div>
 
@@ -103,14 +129,11 @@ export const LayersVector = ({ id, params_config, settings = {} }: LayerProps) =
         </div>
         <div className="flex items-center space-x-2">
           <h3 className="shrink-0">color</h3>
-          {Array.isArray(s.getLineColor) &&
-            s.getLineColor.map((color, i) => (
-              <ColorPicker
-                key={`${i}`}
-                color={`${color}`}
-                onChange={handleColorChange.bind(this, 'getLineColor', i)}
-              />
-            ))}
+
+          <ColorPickerField
+            colors={s.getLineColor as string[]}
+            onChange={handleColorChange.bind(this, 'getLineColor')}
+          />
         </div>
         <div className="flex items-center space-x-2">
           <h3 className="shrink-0">width</h3>
