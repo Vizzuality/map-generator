@@ -32,14 +32,14 @@ export const DEFAULT_CONFIG = ({ id, bbox }: PolygonConfigProps) => {
     // Fill
     filled: '@@#params.filled',
     getFillColor: {
-      '@@function': 'setColor',
+      '@@function': 'setAccesorColor',
       color: '@@#params.getFillColor',
     },
     // Line
     stroked: '@@#params.stroked',
     lineWidthUnits: 'pixels',
     getLineColor: {
-      '@@function': 'setColor',
+      '@@function': 'setAccesorColor',
       color: '@@#params.getLineColor',
     },
     getLineWidth: '@@#params.getLineWidth',

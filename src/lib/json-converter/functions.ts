@@ -113,12 +113,29 @@ export const setPolygonsDataComparator = ({
   };
 };
 
-export const setColor = ({
+/*
+  *****
+  COLOR
+  *****
+*/
+export const setColor = ({ color, gl }: { color: string[]; gl?: boolean }) => {
+  const colorScale = chroma.scale(color);
+
+  if (gl) {
+    return colorScale(1).gl();
+  }
+
+  return colorScale(1).rgb();
+};
+
+export const setAccesorColor = ({
   color,
+  gl,
   prop,
   propFactor = 1,
 }: {
   color: string[];
+  gl?: boolean;
   prop?: string;
   propFactor?: number;
 }) => {
@@ -126,7 +143,15 @@ export const setColor = ({
 
   return ({ properties }: { properties: Record<string, any> }) => {
     if (!prop) {
+      if (gl) {
+        return colorScale(1).gl();
+      }
+
       return colorScale(1).rgb();
+    }
+
+    if (gl) {
+      return colorScale(properties[prop] / propFactor).gl();
     }
 
     return colorScale(properties[prop] / propFactor).rgb();
@@ -139,4 +164,5 @@ export const FUNCTIONS = {
   setPolygonsData,
   setPolygonsDataComparator,
   setColor,
+  setAccesorColor,
 };

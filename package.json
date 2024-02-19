@@ -11,6 +11,7 @@
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
+    "@deck.gl/core": "^8.9.34",
     "@deck.gl/geo-layers": "^8.9.34",
     "@deck.gl/json": "^8.9.34",
     "@deck.gl/layers": "^8.9.34",

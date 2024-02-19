@@ -33,7 +33,7 @@ export const DEFAULT_CONFIG = ({ id, bbox }: PointsConfigProps) => {
     // Fill
     filled: '@@#params.filled',
     getFillColor: {
-      '@@function': 'setColor',
+      '@@function': 'setAccesorColor',
       color: '@@#params.getFillColor',
       prop: 'value',
     },
@@ -41,7 +41,7 @@ export const DEFAULT_CONFIG = ({ id, bbox }: PointsConfigProps) => {
     stroked: '@@#params.stroked',
     lineWidthUnits: 'pixels',
     getLineColor: {
-      '@@function': 'setColor',
+      '@@function': 'setAccesorColor',
       color: '@@#params.getLineColor',
       prop: 'value',
     },

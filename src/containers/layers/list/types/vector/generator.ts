@@ -13,7 +13,7 @@ export const DEFAULT_CONFIG = ({ id }: VectorConfigProps) => {
     // Fill
     filled: '@@#params.filled',
     getFillColor: {
-      '@@function': 'setColor',
+      '@@function': 'setAccesorColor',
       color: '@@#params.getFillColor',
       prop: 'gis_area',
       propFactor: 10000,
@@ -22,7 +22,7 @@ export const DEFAULT_CONFIG = ({ id }: VectorConfigProps) => {
     stroked: '@@#params.stroked',
     lineWidthUnits: 'pixels',
     getLineColor: {
-      '@@function': 'setColor',
+      '@@function': 'setAccesorColor',
       color: '@@#params.getLineColor',
     },
     getLineWidth: '@@#params.getLineWidth',
