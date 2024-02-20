@@ -1,4 +1,4 @@
-import { Layer, LayerExtension } from '@deck.gl/core/typed';
+import { Layer, LayerContext, LayerExtension } from '@deck.gl/core/typed';
 
 type DecodeExtensionType = Layer<{
   decodeFunction: string;
@@ -13,16 +13,12 @@ export default class DecodeExtension extends LayerExtension {
         'fs:#decl': /* glsl*/ `
           uniform float uSaturation;
           uniform vec4 uColor;
+          uniform vec2 uRanges[10];
 
           // apply desaturation
           vec3 uColor_saturation(vec3 color) {
             float luminance = (color.r + color.g + color.b) * 0.33;
             return mix(color, vec3(luminance), uSaturation);
-          }
-
-          // apply tint
-          vec3 uColor_tint(vec3 color) {
-            return color * uColor.rgb;
           }
         `,
         'fs:DECKGL_FILTER_COLOR': `
@@ -33,11 +29,10 @@ export default class DecodeExtension extends LayerExtension {
   }
 
   updateState(this: DecodeExtensionType) {
-    const { decodeParams = {}, zoom } = this.props;
+    const { decodeParams = {} } = this.props;
 
     for (const model of this.getModels()) {
       model.setUniforms({
-        zoom,
         ...decodeParams,
       });
     }

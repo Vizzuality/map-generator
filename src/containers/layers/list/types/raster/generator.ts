@@ -8,6 +8,15 @@ export type RasterConfigProps = {
 };
 
 export const DEFAULT_CONFIG = ({ id }: RasterConfigProps) => {
+  const min = 10;
+  const max = 8890;
+
+  const rs = Array.from({ length: 10 * 2 })
+    .map(() => {
+      return Math.random() * (max - min) + min;
+    })
+    .sort((a, b) => a - b);
+
   return {
     id,
     '@@type': 'TileLayer',
@@ -20,6 +29,7 @@ export const DEFAULT_CONFIG = ({ id }: RasterConfigProps) => {
         color: '@@#params.uColor',
         gl: true,
       },
+      uRanges: rs,
     },
     renderSubLayers: (props: any) => {
       const {
@@ -35,28 +45,26 @@ export const DEFAULT_CONFIG = ({ id }: RasterConfigProps) => {
         bounds: [west, south, east, north],
         uSaturation: props.decodeParams.uSaturation,
         uColor: props.decodeParams.uColor[0],
+        uRanges: props.decodeParams.uRanges,
         decodeFunction: /*glsl*/ `
           float height = -10000.0 + (((color.r * 255.0) * 256.0 * 256.0 + (color.g * 255.0) * 256.0 + (color.b * 255.0)) * 0.1);
+          float h = log(height + 1.0) / log(8849.0 + 1.0);
+          float c = 0.25 + (0.75 * h);
+          // float h = height / 8849.0;
 
-          float h = height / 8849.0;
-          // color = vec4(0.75 * (1.0 - h), 0.9 * (1.0 - h), 0.9 * (h), (0.5 * h) + 0.5);
-          color = vec4(uColor.r * (1.0 - h), uColor.g * (1.0 - h), uColor.b * (1.0 - h), (0.5 * h) + 0.5);
+          bool shouldDiscard = true;
+          for (int i = 0; i < 10; ++i) {
+            if (height > uRanges[i].x && height < uRanges[i].y) {
+              shouldDiscard = false;
+              break;
+            }
+          }
 
-          if (
-            (height < 10.0) ||
-            (height > 100.0 && height < 200.0) ||
-            (height > 300.0 && height < 400.0) ||
-            (height > 500.0 && height < 1000.0) ||
-            (height > 1500.0 && height < 2000.0) ||
-            (height > 2500.0 && height < 3000.0) ||
-            (height > 3500.0 && height < 4000.0) ||
-            (height > 4500.0 && height < 5000.0) ||
-            (height > 5500.0 && height < 6000.0)
-          ) {
+          if (shouldDiscard) {
             discard;
           }
 
-          // color = apply_opacity(uColor_tint(uColor_saturation(color.rgb)), color.a * opacity);
+          color = vec4(uColor.r * c, uColor.g * c, uColor.b * c, 1.0);
           color = vec4(uColor_saturation(color.rgb), color.a);
         `,
         extensions: [new DecodeExtension()],
@@ -77,7 +85,7 @@ export const DEFAULT_CONFIG_PARAMS = [
     type: 'color',
     key: 'uColor',
     label: 'color',
-    default: ['#3d7b1f'],
+    default: ['#61ef0a'],
     group: 'Fill',
   },
 ];

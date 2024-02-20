@@ -51,6 +51,8 @@ export const LayersRaster = ({ id, params_config, settings = {} }: LayerProps) =
             type="number"
             value={`${s.uSaturation}`}
             step={0.01}
+            min={0}
+            max={1}
             onChange={handleNumberChange.bind(this, 'uSaturation')}
           />
         </div>
