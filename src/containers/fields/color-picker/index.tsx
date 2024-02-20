@@ -3,10 +3,11 @@ import ColorPicker from '@/components/ui/color-picker';
 
 type ColorPickerFieldProps = {
   colors: string[];
+  multiple?: boolean;
   onChange: (colors: string[]) => void;
 };
 
-export const ColorPickerField = ({ colors, onChange }: ColorPickerFieldProps) => {
+export const ColorPickerField = ({ colors, multiple, onChange }: ColorPickerFieldProps) => {
   const handleChange = (i: number, color: string) => {
     const prevColors = colors;
     const newColors = [...prevColors];
@@ -29,7 +30,7 @@ export const ColorPickerField = ({ colors, onChange }: ColorPickerFieldProps) =>
     <>
       {Array.isArray(colors) &&
         colors.map((color, i) => (
-          <div className="relative" key={`${i}`}>
+          <div className="relative flex items-center" key={`${i}`}>
             <ColorPicker color={`${color}`} onChange={handleChange.bind(this, i)} />
 
             {i !== 0 && (
@@ -44,9 +45,11 @@ export const ColorPickerField = ({ colors, onChange }: ColorPickerFieldProps) =>
           </div>
         ))}
 
-      <button type="button" className="text-xs text-primary hover:underline" onClick={handleAdd}>
-        Add color
-      </button>
+      {multiple && (
+        <button type="button" className="text-xs text-primary hover:underline" onClick={handleAdd}>
+          Add color
+        </button>
+      )}
     </>
   );
 };

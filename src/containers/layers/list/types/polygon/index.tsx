@@ -79,7 +79,9 @@ export const LayersPolygon = ({ id, params_config, settings = {} }: LayerProps) 
         </div>
         <div className="flex items-center space-x-2">
           <h3 className="shrink-0">color</h3>
+
           <ColorPickerField
+            multiple
             colors={s.getFillColor as string[]}
             onChange={handleColorChange.bind(this, 'getFillColor')}
           />
@@ -101,6 +103,7 @@ export const LayersPolygon = ({ id, params_config, settings = {} }: LayerProps) 
           <h3 className="shrink-0">color</h3>
 
           <ColorPickerField
+            multiple
             colors={s.getLineColor as string[]}
             onChange={handleColorChange.bind(this, 'getLineColor')}
           />
